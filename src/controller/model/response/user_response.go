@@ -1,8 +1,9 @@
 package request
 
 type UserResponse struct {
-	ID string
-	Email string
-	Name string
-	Age int8
+	ID string `json:"id"`
+	Email string `json:"email"`
+	Name string `json:"name"`
+	Age int8 `json:"age"`
 }
+
