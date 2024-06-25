@@ -14,18 +14,18 @@ func NewUserDomain(email, password, name string, age int8) *userDomain {
 }
 
 type userDomain struct {
-	Email string 
-	Password string 
-	Name string 
-	Age int8 
+	email string 
+	password string 
+	name string 
+	age int8 
 }
 
 func (userDomain *userDomain) EncryptPassword() {
 	// Encrypt password
 	hash := md5.New()
 	defer hash.Reset()
-	hash.Write([]byte(userDomain.Password))
-	userDomain.Password = hex.EncodeToString(hash.Sum(nil))
+	hash.Write([]byte(userDomain.password))
+	userDomain.password = hex.EncodeToString(hash.Sum(nil))
 }
 
 type UserDomainInterface interface {
