@@ -7,8 +7,13 @@ import (
 	"github.com/MateusGuedess/go-crud/src/configuration/validation"
 	"github.com/MateusGuedess/go-crud/src/controller/model/request"
 	"github.com/MateusGuedess/go-crud/src/controller/model/response" // Import the missing package
+	"github.com/MateusGuedess/go-crud/src/model"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+)
+
+var (
+	UserDomainInterface model.UserDomainInterface
 )
 
 func CreateUser(c *gin.Context){
@@ -22,6 +27,13 @@ func CreateUser(c *gin.Context){
 		return
 	}
 
+	domain := model.NewUserDomain(
+		userRequest.Email,
+		userRequest.Password,
+		userRequest.Name,
+		userRequest.Age,
+	)
+
 	response := response.UserResponse{
 		ID:    "test",
 		Email: userRequest.Email,
@@ -29,9 +41,14 @@ func CreateUser(c *gin.Context){
 		Age:   userRequest.Age,
 	}
 	
+	if err := domain.CreateUser(); err != nil {
+		c.JSON(err.Code, err)
+	}
+
 	logger.Info("User created succesfully", zap.String("journey", "createUser"))
 
 	c.JSON(http.StatusOK, response)
+
 
 }
 
