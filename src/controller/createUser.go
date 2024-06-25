@@ -8,6 +8,7 @@ import (
 	"github.com/MateusGuedess/go-crud/src/controller/model/request"
 	"github.com/MateusGuedess/go-crud/src/controller/model/response" // Import the missing package
 	"github.com/MateusGuedess/go-crud/src/model"
+	"github.com/MateusGuedess/go-crud/src/model/service"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -40,8 +41,8 @@ func CreateUser(c *gin.Context){
 		Name:  userRequest.Name,
 		Age:   userRequest.Age,
 	}
-	
-	if err := domain.CreateUser(); err != nil {
+	service := service.NewUserDomainService()
+	if err := service.CreateUser(domain); err != nil {
 		c.JSON(err.Code, err)
 	}
 
